@@ -1,36 +1,18 @@
+import * as API from "./BooksAPI"
 function onChangeStatus(args){
-    args.book.status = (args.status)
-    if(args.status !== "none"){
-        if(checkEmptyList(args.shelves)){
-            const shelf = args.shelves.filter((s) => (s.name === args.status))[0]
-            shelf.add(args.book)
-            args.update(args.shelves)
-            save(args.shelves)
-        }
-        else{
-            const currentShelf = args.shelves.filter(
-                (s) => (s.books.filter((b) => (b.id === args.book.id)).length !== 0)
-            )
-            if(currentShelf.length > 0)
-                currentShelf[0].remove(args.book)
+    API.update(args.book.JSON,args.status).then(() =>{
+        args.book.status = args.status
+        const currentShelf = args.shelves.filter(
+            (s) => (s.books.filter((b) => (b.id === args.book.id)).length !== 0)
+        )
+        if(currentShelf.length > 0)
+            currentShelf[0].remove(args.book)
+        if(args.status !== "none"){
             const newShelf = args.shelves.filter((s)=>(s.name === args.status))[0]
             newShelf.add(args.book)
-            args.update(shelves => [...shelves])
-            save(args.shelves)
         }
-    }
-    else{
-        const shelf = args.shelves.filter((s) => (s.books.filter((b)=>(b.id ===args.book.id)).length !== 0))
-        shelf[0].remove(args.book)
         args.update(shelves => [...shelves])
-        save(args.shelves)
-    }   
-    
-}
-function checkEmptyList(shelves){
-    return (shelves.filter((s) => (s.books.length > 0))).length === 0
-}
-function save(shelves){
-    window.localStorage.setItem("s",JSON.stringify(shelves))
+    }).then(() => (args.status !== "none" ? alert("Successfully Added"):null))
+    .catch((e) => console.log(e))
 }
 export default onChangeStatus

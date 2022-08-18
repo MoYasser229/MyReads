@@ -7,7 +7,7 @@ const Item = (props) => {
         height: 193,
         backgroundImage: `url(${props.book.imageLinks && props.book.imageLinks.thumbnail})`
     }
-    const status = ["Currently Reading", "Want to read", "Read","none"]
+    const status = ["currentlyReading", "wantToRead", "read","none"]
     const onChange = (e) => {
         props.update(e.target.value,props.shelves,props.book)
     }

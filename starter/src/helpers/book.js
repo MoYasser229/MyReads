@@ -9,5 +9,8 @@ class Book{
     getTitle(){
         return this.title;
     }
+    setJSON(JSON){
+        this.JSON = JSON
+    }
 }
 export default Book

@@ -18,6 +18,8 @@ const Search = ({shelves,setShelves}) => {
                         setItems(books.map((book) => {
                             const shelf = shelves.filter((s)=>(s.books.filter((b)=>(b.id === book.id)).length !== 0))
                             let b = new Book(book.id,book.title,book.authors,book.imageLinks)
+                            b.shelf = "none"
+                            b.setJSON(book)
                             if(shelf.length !== 0)
                                 b.status = shelf[0].name
                             return <Item key={book.id} update = {setShelves} book={b} shelves={shelves} />
