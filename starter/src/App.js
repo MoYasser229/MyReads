@@ -18,9 +18,10 @@ function App() {
           myBook.setJSON(book)
           if(shelf.name === book.shelf)
             shelf.add(myBook)
+          return null
         })
+        return null
       })
-      console.log(shelves)
       setShelves(shelves => [...shelves])
     })
   },[])
